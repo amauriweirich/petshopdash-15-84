@@ -1,48 +1,42 @@
-
 import React from 'react';
-import { format } from 'date-fns';
-import { pt } from 'date-fns/locale';
-import { Calendar } from '@/components/ui/calendar';
-import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
+import { Calendar } from "@/components/ui/calendar";
+import { useCalendarEvents } from '@/hooks/useCalendarEvents';
+import { Card } from '@/components/ui/card';
+import { AppointmentType } from '@/services/calendarApi';
 
 interface CalendarSidebarProps {
-  selectedDate: Date | undefined;
-  onDateChange: (date: Date | undefined) => void;
-  onAddEvent: () => void;
+  appointmentType: AppointmentType;
 }
 
-export function CalendarSidebar({ selectedDate, onDateChange, onAddEvent }: CalendarSidebarProps) {
+const CalendarSidebar = ({ appointmentType }: CalendarSidebarProps) => {
+  const { date, setDate, events } = useCalendarEvents(appointmentType);
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Calendário</CardTitle>
-        <CardDescription>Selecione uma data</CardDescription>
-      </CardHeader>
-      <CardContent className="flex justify-center">
-        <Calendar 
-          mode="single" 
-          selected={selectedDate} 
-          onSelect={onDateChange} 
-          className="border rounded-md" 
-          locale={pt} 
+    <div className="w-[350px] border-r p-4 overflow-y-auto">
+      <Card className="p-4">
+        <Calendar
+          mode="single"
+          selected={date}
+          onSelect={setDate}
+          className="rounded-md"
         />
-      </CardContent>
-      <CardFooter className="flex flex-col items-center gap-3">
-        <p className="text-sm text-gray-500 dark:text-gray-400">
-          {selectedDate && format(selectedDate, "EEEE, dd 'de' MMMM", {
-            locale: pt
-          })}
-        </p>
-        <Button 
-          onClick={onAddEvent} 
-          className="w-full flex items-center gap-2"
-        >
-          <Plus className="h-4 w-4" />
-          Adicionar Evento
-        </Button>
-      </CardFooter>
-    </Card>
+      </Card>
+      <div className="mt-4">
+        <h3 className="text-lg font-semibold mb-2">Events for {date ? date.toLocaleDateString() : 'Today'}</h3>
+        <ul>
+          {events.length > 0 ? (
+            events.map((event: any) => (
+              <li key={event.id} className="mb-2">
+                {event.title} - {event.start}
+              </li>
+            ))
+          ) : (
+            <li>No events for this day.</li>
+          )}
+        </ul>
+      </div>
+    </div>
   );
-}
+};
+
+export default CalendarSidebar;
