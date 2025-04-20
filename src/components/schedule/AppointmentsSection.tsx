@@ -1,5 +1,6 @@
-import React from 'react';
-import { format, isSameDay } from 'date-fns';
+
+import React, { useState } from 'react';
+import { format, isValid } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { Appointment, AppointmentFormData } from '@/types/calendar';
 import { 
@@ -25,10 +26,26 @@ export function AppointmentsSection({ appointmentType }: AppointmentsSectionProp
   const isDeleteDialogOpen = false;
   const setIsDeleteDialogOpen = (open: boolean) => {};
   const currentAppointment = null;
-  const formData = {} as AppointmentFormData;
+  const formData = {
+    petName: '',
+    ownerName: '',
+    phone: '',
+    date: new Date(),
+    service: '',
+    status: 'pendente' as 'confirmado' | 'pendente' | 'cancelado',
+    notes: ''
+  } as AppointmentFormData;
   const setFormData = (data: AppointmentFormData) => {};
   const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); };
   const confirmDelete = () => {};
+
+  // Helper function to safely format dates
+  const safeFormatDate = (date: Date | null | undefined, formatString: string): string => {
+    if (!date || !isValid(date)) {
+      return 'Invalid date';
+    }
+    return format(date, formatString, { locale: pt });
+  };
 
   return (
     <div className="flex-1 p-4 overflow-y-auto">
@@ -79,13 +96,19 @@ export function AppointmentsSection({ appointmentType }: AppointmentsSectionProp
               <div className="space-y-2">
                 <Label htmlFor="date">Data e Hora</Label>
                 <div className="flex">
-                  <Input id="date" type="datetime-local" value={format(formData.date, "yyyy-MM-dd'T'HH:mm")} onChange={e => {
-                  const newDate = e.target.value ? new Date(e.target.value) : new Date();
-                  setFormData({
-                    ...formData,
-                    date: newDate
-                  });
-                }} required />
+                  <Input 
+                    id="date" 
+                    type="datetime-local" 
+                    value={isValid(formData.date) ? format(formData.date, "yyyy-MM-dd'T'HH:mm") : ''} 
+                    onChange={e => {
+                      const newDate = e.target.value ? new Date(e.target.value) : new Date();
+                      setFormData({
+                        ...formData,
+                        date: newDate
+                      });
+                    }} 
+                    required 
+                  />
                 </div>
               </div>
               
@@ -173,13 +196,19 @@ export function AppointmentsSection({ appointmentType }: AppointmentsSectionProp
               <div className="space-y-2">
                 <Label htmlFor="edit-date">Data e Hora</Label>
                 <div className="flex">
-                  <Input id="edit-date" type="datetime-local" value={format(formData.date, "yyyy-MM-dd'T'HH:mm")} onChange={e => {
-                  const newDate = e.target.value ? new Date(e.target.value) : new Date();
-                  setFormData({
-                    ...formData,
-                    date: newDate
-                  });
-                }} required />
+                  <Input 
+                    id="edit-date" 
+                    type="datetime-local" 
+                    value={isValid(formData.date) ? format(formData.date, "yyyy-MM-dd'T'HH:mm") : ''} 
+                    onChange={e => {
+                      const newDate = e.target.value ? new Date(e.target.value) : new Date();
+                      setFormData({
+                        ...formData,
+                        date: newDate
+                      });
+                    }} 
+                    required 
+                  />
                 </div>
               </div>
               
@@ -242,9 +271,7 @@ export function AppointmentsSection({ appointmentType }: AppointmentsSectionProp
             <div className="py-4">
               <p><strong>Pet:</strong> {currentAppointment.petName}</p>
               <p><strong>Proprietário:</strong> {currentAppointment.ownerName}</p>
-              <p><strong>Data/Hora:</strong> {format(currentAppointment.date, "dd/MM/yyyy 'às' HH:mm", {
-                locale: pt
-              })}</p>
+              <p><strong>Data/Hora:</strong> {safeFormatDate(currentAppointment.date, "dd/MM/yyyy 'às' HH:mm")}</p>
               <p><strong>Serviço:</strong> {currentAppointment.service}</p>
             </div>
           )}

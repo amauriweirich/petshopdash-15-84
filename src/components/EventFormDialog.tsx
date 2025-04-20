@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import { Calendar as CalendarIcon, Clock } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -47,17 +47,29 @@ export function EventFormDialog({
 
   useEffect(() => {
     if (event) {
-      const startDate = new Date(event.start);
-      const endDate = new Date(event.end);
-      
-      setFormData({
-        summary: event.summary || '',
-        description: event.description || '',
-        email: event.attendees?.find(a => a !== null && a.email)?.email || '',
-        date: startDate,
-        startTime: format(startDate, 'HH:mm'),
-        endTime: format(endDate, 'HH:mm')
-      });
+      try {
+        const startDate = new Date(event.start);
+        const endDate = new Date(event.end);
+        
+        // Check if dates are valid before setting state
+        if (!isValid(startDate) || !isValid(endDate)) {
+          console.error('Invalid date in event:', event);
+          setFormData(initialFormState);
+          return;
+        }
+        
+        setFormData({
+          summary: event.summary || '',
+          description: event.description || '',
+          email: event.attendees?.find(a => a !== null && a.email)?.email || '',
+          date: startDate,
+          startTime: format(startDate, 'HH:mm'),
+          endTime: format(endDate, 'HH:mm')
+        });
+      } catch (error) {
+        console.error('Error parsing event dates:', error);
+        setFormData(initialFormState);
+      }
     } else {
       setFormData(initialFormState);
     }
@@ -76,8 +88,8 @@ export function EventFormDialog({
       newErrors.email = 'Digite um e-mail válido';
     }
     
-    if (!formData.date) {
-      newErrors.date = 'A data é obrigatória';
+    if (!formData.date || !isValid(formData.date)) {
+      newErrors.date = 'A data é obrigatória e deve ser válida';
     }
     
     if (!formData.startTime) {
@@ -175,7 +187,9 @@ export function EventFormDialog({
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
-                  {formData.date ? format(formData.date, "dd/MM/yyyy") : <span>Selecione uma data</span>}
+                  {formData.date && isValid(formData.date) 
+                    ? format(formData.date, "dd/MM/yyyy") 
+                    : <span>Selecione uma data</span>}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">

@@ -11,7 +11,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { CalendarEvent } from '@/types/calendar';
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { Trash2 } from 'lucide-react';
 
@@ -32,7 +32,18 @@ export function DeleteEventDialog({
 }: DeleteEventDialogProps) {
   if (!event) return null;
 
-  const startDate = new Date(event.start);
+  let startDate: Date;
+  
+  try {
+    startDate = new Date(event.start);
+    if (!isValid(startDate)) {
+      console.error('Invalid date in DeleteEventDialog:', event.start);
+      startDate = new Date(); // Fallback to current date
+    }
+  } catch (error) {
+    console.error('Error parsing date in DeleteEventDialog:', error);
+    startDate = new Date(); // Fallback to current date
+  }
   
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
