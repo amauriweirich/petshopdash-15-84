@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import CalendarSidebar from '../components/schedule/CalendarSidebar';
-import AppointmentsSection from '../components/schedule/AppointmentsSection';
+import { AppointmentsSection } from '../components/schedule/AppointmentsSection';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AppointmentType } from '../services/calendarApi';
 

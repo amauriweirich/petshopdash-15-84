@@ -2,10 +2,11 @@
 import { useState, useEffect } from 'react';
 import { AppointmentType, fetchEvents } from '../services/calendarApi';
 import { format } from 'date-fns';
+import { CalendarEvent } from '@/types/calendar';
 
 export const useCalendarEvents = (appointmentType: AppointmentType) => {
   const [date, setDate] = useState<Date>(new Date());
-  const [events, setEvents] = useState<any[]>([]);
+  const [events, setEvents] = useState<CalendarEvent[]>([]);
 
   useEffect(() => {
     const fetchEventsForDate = async () => {
@@ -25,3 +26,5 @@ export const useCalendarEvents = (appointmentType: AppointmentType) => {
 
   return { date, setDate, events };
 };
+
+export default useCalendarEvents;

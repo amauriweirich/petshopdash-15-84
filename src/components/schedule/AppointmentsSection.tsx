@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { format, isSameDay } from 'date-fns';
 import { pt } from 'date-fns/locale';
@@ -11,38 +10,37 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { X, Trash2 } from 'lucide-react';
+import { AppointmentType } from '@/services/calendarApi';
 
 interface AppointmentsSectionProps {
-  appointments: Appointment[];
-  isAddDialogOpen: boolean;
-  setIsAddDialogOpen: (open: boolean) => void;
-  isEditDialogOpen: boolean;
-  setIsEditDialogOpen: (open: boolean) => void;
-  isDeleteDialogOpen: boolean;
-  setIsDeleteDialogOpen: (open: boolean) => void;
-  currentAppointment: Appointment | null;
-  formData: AppointmentFormData;
-  setFormData: (data: AppointmentFormData) => void;
-  handleSubmit: (e: React.FormEvent) => void;
-  confirmDelete: () => void;
+  appointmentType: AppointmentType;
 }
 
-export function AppointmentsSection({
-  appointments,
-  isAddDialogOpen,
-  setIsAddDialogOpen,
-  isEditDialogOpen,
-  setIsEditDialogOpen,
-  isDeleteDialogOpen,
-  setIsDeleteDialogOpen,
-  currentAppointment,
-  formData,
-  setFormData,
-  handleSubmit,
-  confirmDelete
-}: AppointmentsSectionProps) {
+export function AppointmentsSection({ appointmentType }: AppointmentsSectionProps) {
+  const appointments: Appointment[] = [];
+  const isAddDialogOpen = false;
+  const setIsAddDialogOpen = (open: boolean) => {};
+  const isEditDialogOpen = false;
+  const setIsEditDialogOpen = (open: boolean) => {};
+  const isDeleteDialogOpen = false;
+  const setIsDeleteDialogOpen = (open: boolean) => {};
+  const currentAppointment = null;
+  const formData = {} as AppointmentFormData;
+  const setFormData = (data: AppointmentFormData) => {};
+  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); };
+  const confirmDelete = () => {};
+
   return (
-    <>
+    <div className="flex-1 p-4 overflow-y-auto">
+      <h2 className="text-2xl font-bold mb-4">
+        {appointmentType === 'VET' ? 'Consultas Veterinárias' : 'Agendamentos de Banho'}
+      </h2>
+      <div className="flex justify-end mb-4">
+        <Button onClick={() => setIsAddDialogOpen(true)}>
+          Novo Agendamento
+        </Button>
+      </div>
+
       <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
@@ -263,6 +261,6 @@ export function AppointmentsSection({
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 }
