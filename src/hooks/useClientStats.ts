@@ -1,3 +1,4 @@
+
 import { useState, useCallback } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
@@ -19,12 +20,12 @@ export function useClientStats() {
       setLoading(true);
       
       // Fetch total clients
-      const { count: totalClients } = await supabase
+      const { count: totalClients } = await (supabase as any)
         .from('dados_cliente')
         .select('*', { count: 'exact' });
 
       // Fetch total pets (assuming each client has at least one pet)
-      const { count: totalPets } = await supabase
+      const { count: totalPets } = await (supabase as any)
         .from('dados_cliente')
         .select('*', { count: 'exact' })
         .not('nome_pet', 'is', null);
@@ -34,7 +35,7 @@ export function useClientStats() {
       const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
       const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
       
-      const { count: newClientsThisMonth } = await supabase
+      const { count: newClientsThisMonth } = await (supabase as any)
         .from('dados_cliente')
         .select('*', { count: 'exact' })
         .gte('created_at', firstDayOfMonth.toISOString())
@@ -48,7 +49,7 @@ export function useClientStats() {
         const startOfMonth = new Date(currentYear, month, 1);
         const endOfMonth = new Date(currentYear, month + 1, 0);
         
-        const { count } = await supabase
+        const { count } = await (supabase as any)
           .from('dados_cliente')
           .select('*', { count: 'exact' })
           .gte('created_at', startOfMonth.toISOString())
@@ -62,13 +63,13 @@ export function useClientStats() {
       }
 
       // Fetch pet breeds data
-      const { data: petsData } = await supabase
+      const { data: petsData } = await (supabase as any)
         .from('dados_cliente')
         .select('raca_pet')
         .not('raca_pet', 'is', null);
 
-      const breedCounts = {};
-      petsData?.forEach(pet => {
+      const breedCounts: Record<string, number> = {};
+      petsData?.forEach((pet: any) => {
         if (pet.raca_pet) {
           breedCounts[pet.raca_pet] = (breedCounts[pet.raca_pet] || 0) + 1;
         }
@@ -87,13 +88,13 @@ export function useClientStats() {
       }));
 
       // Fetch recent clients
-      const { data: recentClientsData } = await supabase
+      const { data: recentClientsData } = await (supabase as any)
         .from('dados_cliente')
         .select('id, nome, telefone, nome_pet, created_at')
         .order('created_at', { ascending: false })
         .limit(5);
 
-      const recentClients = recentClientsData?.map(client => ({
+      const recentClients = recentClientsData?.map((client: any) => ({
         id: client.id,
         name: client.nome,
         phone: client.telefone,

@@ -15,7 +15,7 @@ export function useChatMessages(selectedChat: string | null) {
       setLoading(true);
       console.log(`Fetching messages for conversation: ${conversationId}`);
       
-      const { data: historyData, error: historyError } = await supabase
+      const { data: historyData, error: historyError } = await (supabase as any)
         .from('n8n_chat_histories')
         .select('*')
         .eq('session_id', conversationId)

@@ -9,7 +9,78 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      dados_cliente: {
+        Row: {
+          asaas_customer_id: string | null
+          cpf_cnpj: string | null
+          created_at: string | null
+          email: string | null
+          id: number
+          nome: string | null
+          nome_pet: string | null
+          payments: Json | null
+          porte_pet: string | null
+          raca_pet: string | null
+          sessionid: string | null
+          telefone: string | null
+        }
+        Insert: {
+          asaas_customer_id?: string | null
+          cpf_cnpj?: string | null
+          created_at?: string | null
+          email?: string | null
+          id?: number
+          nome?: string | null
+          nome_pet?: string | null
+          payments?: Json | null
+          porte_pet?: string | null
+          raca_pet?: string | null
+          sessionid?: string | null
+          telefone?: string | null
+        }
+        Update: {
+          asaas_customer_id?: string | null
+          cpf_cnpj?: string | null
+          created_at?: string | null
+          email?: string | null
+          id?: number
+          nome?: string | null
+          nome_pet?: string | null
+          payments?: Json | null
+          porte_pet?: string | null
+          raca_pet?: string | null
+          sessionid?: string | null
+          telefone?: string | null
+        }
+        Relationships: []
+      }
+      n8n_chat_histories: {
+        Row: {
+          created_at: string | null
+          data: string | null
+          hora: string | null
+          id: number
+          message: Json | null
+          session_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          data?: string | null
+          hora?: string | null
+          id?: number
+          message?: Json | null
+          session_id: string
+        }
+        Update: {
+          created_at?: string | null
+          data?: string | null
+          hora?: string | null
+          id?: number
+          message?: Json | null
+          session_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
