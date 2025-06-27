@@ -54,6 +54,33 @@ export type Database = {
         }
         Relationships: []
       }
+      documents: {
+        Row: {
+          conteudo: string | null
+          created_at: string | null
+          id: number
+          tipo: string | null
+          titulo: string
+          updated_at: string | null
+        }
+        Insert: {
+          conteudo?: string | null
+          created_at?: string | null
+          id?: number
+          tipo?: string | null
+          titulo: string
+          updated_at?: string | null
+        }
+        Update: {
+          conteudo?: string | null
+          created_at?: string | null
+          id?: number
+          tipo?: string | null
+          titulo?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       n8n_chat_histories: {
         Row: {
           created_at: string | null

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
@@ -33,7 +34,7 @@ export const useDocuments = () => {
     try {
       setIsLoading(true);
       // Only select titulo column
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('documents')
         .select('titulo');
 
@@ -48,7 +49,7 @@ export const useDocuments = () => {
       }
 
       // Transform the data to match our Document interface
-      const formattedDocs: Document[] = data.map((doc, index) => {
+      const formattedDocs: Document[] = data.map((doc: any, index: number) => {
         // Use titulo from the database if available, otherwise generate a name
         const documentName = doc.titulo || `Documento ${index + 1}`;
         
