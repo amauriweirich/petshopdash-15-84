@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Contact } from '@/types/client';
 import { supabase } from '@/integrations/supabase/client';
@@ -21,9 +20,6 @@ export const useClientManagement = () => {
     email: '',
     phone: '',
     address: '',
-    petName: '',
-    petSize: '',
-    petBreed: '',
     cpfCnpj: '',
     asaasCustomerId: '',
     status: 'Active',
@@ -48,11 +44,9 @@ export const useClientManagement = () => {
           name: client.nome || 'Cliente sem nome',
           email: client.email,
           phone: client.telefone,
-          petName: client.nome_pet,
-          petSize: client.porte_pet,
-          petBreed: client.raca_pet,
           cpfCnpj: client.cpf_cnpj,
           asaasCustomerId: client.asaas_customer_id,
+          address: '',
           payments: client.payments,
           status: 'Active',
           notes: '',
@@ -106,9 +100,6 @@ export const useClientManagement = () => {
             nome: newContact.name,
             email: newContact.email,
             telefone: newContact.phone,
-            nome_pet: newContact.petName,
-            porte_pet: newContact.petSize,
-            raca_pet: newContact.petBreed,
             cpf_cnpj: newContact.cpfCnpj,
             asaas_customer_id: newContact.asaasCustomerId,
             payments: newContact.payments || null
@@ -128,9 +119,6 @@ export const useClientManagement = () => {
           email: '',
           phone: '',
           address: '',
-          petName: '',
-          petSize: '',
-          petBreed: '',
           cpfCnpj: '',
           asaasCustomerId: '',
           status: 'Active',
@@ -176,9 +164,6 @@ export const useClientManagement = () => {
           nome: newContact.name,
           email: newContact.email,
           telefone: newContact.phone,
-          nome_pet: newContact.petName,
-          porte_pet: newContact.petSize,
-          raca_pet: newContact.petBreed,
           cpf_cnpj: newContact.cpfCnpj,
           asaas_customer_id: newContact.asaasCustomerId,
           payments: newContact.payments
@@ -272,9 +257,6 @@ export const useClientManagement = () => {
       email: selectedContact.email,
       phone: selectedContact.phone,
       address: selectedContact.address,
-      petName: selectedContact.petName,
-      petSize: selectedContact.petSize,
-      petBreed: selectedContact.petBreed,
       cpfCnpj: selectedContact.cpfCnpj,
       asaasCustomerId: selectedContact.asaasCustomerId,
       payments: selectedContact.payments,

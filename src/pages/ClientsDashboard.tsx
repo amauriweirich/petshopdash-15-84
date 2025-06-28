@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
@@ -103,7 +102,6 @@ const ClientsDashboard = () => {
               Total de clientes: {contacts.filter(contact =>
                 contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 (contact.email && contact.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                (contact.petName && contact.petName.toLowerCase().includes(searchTerm.toLowerCase())) ||
                 (contact.phone && contact.phone.includes(searchTerm))
               ).length}
             </div>

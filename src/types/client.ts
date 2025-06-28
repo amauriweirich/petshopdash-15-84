@@ -5,9 +5,6 @@ export interface Contact {
   email: string | null;
   phone: string | null;
   address?: string;
-  petName: string | null;
-  petSize: string | null;
-  petBreed: string | null;
   cpfCnpj: string | null;
   asaasCustomerId: string | null;
   payments?: any;

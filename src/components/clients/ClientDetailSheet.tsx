@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/sheet";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { User, Phone, Mail, MapPin, MessageSquare, CreditCard, FileText, Dog, Trash2, Edit2 } from 'lucide-react';
+import { User, Phone, Mail, MapPin, MessageSquare, CreditCard, FileText, Edit2 } from 'lucide-react';
 import { Contact } from '@/types/client';
 import DeleteClientDialog from './DeleteClientDialog';
 import SendMessageDialog from './SendMessageDialog';
@@ -60,17 +60,17 @@ const ClientDetailSheet = ({
       <SheetContent className="sm:max-w-md">
         <SheetHeader>
           <SheetTitle className="text-xl flex items-center gap-2">
-            <User className="h-5 w-5 text-petshop-blue dark:text-petshop-gold" />
+            <User className="h-5 w-5 text-blue-600 dark:text-blue-400" />
             {selectedContact.name}
           </SheetTitle>
           <SheetDescription>
-            Detalhes do cliente e seu pet
+            Detalhes do cliente
           </SheetDescription>
         </SheetHeader>
         <div className="mt-6 space-y-6">
           <div className="space-y-4">
             <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
-              Informações Básicas
+              Informações do Cliente
             </h3>
             <div className="grid grid-cols-[20px_1fr] gap-x-3 gap-y-4 items-start">
               <Mail className="h-5 w-5 text-gray-500" />
@@ -101,31 +101,6 @@ const ClientDetailSheet = ({
               <div>
                 <p className="text-sm font-medium">{selectedContact.address || 'Não informado'}</p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">Endereço</p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="space-y-4">
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
-              Informações do Pet
-            </h3>
-            <div className="grid grid-cols-[20px_1fr] gap-x-3 gap-y-4 items-start">
-              <Dog className="h-5 w-5 text-gray-500" />
-              <div>
-                <p className="text-sm font-medium">{selectedContact.petName || 'Não informado'}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">Nome do Pet</p>
-              </div>
-              
-              <Dog className="h-5 w-5 text-gray-500" />
-              <div>
-                <p className="text-sm font-medium">{selectedContact.petBreed || 'Não informado'}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">Raça</p>
-              </div>
-              
-              <Dog className="h-5 w-5 text-gray-500" />
-              <div>
-                <p className="text-sm font-medium">{selectedContact.petSize || 'Não informado'}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">Porte</p>
               </div>
             </div>
           </div>
