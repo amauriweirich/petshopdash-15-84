@@ -25,12 +25,12 @@ export type EventFormData = {
   endTime: string;
 };
 
-// Appointment types (mock data)
+// Appointment types
 export type AppointmentStatus = 'confirmado' | 'pendente' | 'cancelado';
 
 export type Appointment = {
   id: number;
-  petName: string;
+  petName: string; // Mantendo para compatibilidade, mas será usado para referência
   ownerName: string;
   phone: string;
   date: Date;
