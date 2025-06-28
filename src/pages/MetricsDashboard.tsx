@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import { LineChart, Users, Smartphone, PawPrint } from 'lucide-react';
+import { LineChart, Users, Smartphone, TrendingUp } from 'lucide-react';
 import { useClientStats } from '@/hooks/useClientStats';
 import { useDashboardRealtime } from '@/hooks/useDashboardRealtime';
 
@@ -41,26 +41,26 @@ const MetricsDashboard = () => {
         { month: 'Dez', clients: 0 }
       ];
   
-  // Use pet breed data from the API instead of hardcoded data
-  const petBreedsData = stats.petBreeds?.length > 0 
-    ? stats.petBreeds 
+  // Use service types data from the API
+  const serviceTypesData = stats.serviceTypes?.length > 0 
+    ? stats.serviceTypes 
     : [
         { name: 'Não especificado', value: 100, color: '#8B5CF6' }
       ];
 
-  const petServicesData = [
-    { name: 'Banho', value: 45 },
-    { name: 'Tosa', value: 35 },
-    { name: 'Consulta', value: 20 },
-    { name: 'Vacinas', value: 30 },
-    { name: 'Compras', value: 25 },
+  const financialServicesData = [
+    { name: 'Consultoria', value: 45 },
+    { name: 'Planejamento', value: 35 },
+    { name: 'Investimentos', value: 20 },
+    { name: 'Seguros', value: 30 },
+    { name: 'Crédito', value: 25 },
   ];
   
   // Use real client data from the database
   const recentClientsData = stats.recentClients?.length > 0
     ? stats.recentClients
     : [
-        { id: 1, name: 'Carregando...', phone: '...', pets: 0, lastVisit: '...' }
+        { id: 1, name: 'Carregando...', phone: '...', services: 0, lastVisit: '...' }
       ];
 
   return (
@@ -72,7 +72,7 @@ const MetricsDashboard = () => {
       <main className="container mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-2xl font-bold flex items-center gap-2 text-gray-800 dark:text-white">
-            <LineChart className="h-6 w-6 text-petshop-blue dark:text-blue-400" />
+            <LineChart className="h-6 w-6 text-blue-600 dark:text-blue-400" />
             Dashboard de Métricas
           </h2>
         </div>
@@ -90,13 +90,13 @@ const MetricsDashboard = () => {
           />
           
           <StatCard 
-            title="Total de Pets"
-            value={stats.totalPets}
-            icon={<PawPrint />}
-            trend={`Média de ${(stats.totalPets / (stats.totalClients || 1)).toFixed(1)} pets por cliente`}
+            title="Total de Serviços"
+            value={stats.totalServices}
+            icon={<TrendingUp />}
+            trend={`Média de ${(stats.totalServices / (stats.totalClients || 1)).toFixed(1)} serviços por cliente`}
             loading={loading}
-            iconBgClass="bg-pink-100 dark:bg-pink-900/30"
-            iconTextClass="text-pink-600 dark:text-pink-400"
+            iconBgClass="bg-green-100 dark:bg-green-900/30"
+            iconTextClass="text-green-600 dark:text-green-400"
           />
           
           <StatCard 
@@ -113,11 +113,11 @@ const MetricsDashboard = () => {
         {/* Gráficos e Tabelas */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <ClientGrowthChart data={monthlyCustomersData} loading={loading} />
-          <PetTypesChart data={petBreedsData} loading={loading} />
+          <PetTypesChart data={serviceTypesData} loading={loading} />
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <ServicesBarChart data={petServicesData} />
+          <ServicesBarChart data={financialServicesData} />
           <RecentClientsTable clients={recentClientsData} loading={loading} />
         </div>
       </main>
