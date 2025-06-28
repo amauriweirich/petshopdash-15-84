@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
-import { PawPrint, Mail, Lock, Eye, EyeOff, Heart, Sparkles } from 'lucide-react';
+import { TrendingUp, Mail, Lock, Eye, EyeOff, BarChart3, Sparkles } from 'lucide-react';
 import { z } from 'zod';
 import { useAuth } from '@/context/AuthContext';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -97,7 +97,6 @@ const Index = () => {
         toast.error(error.message || 'Erro ao fazer login. Tente novamente.');
       } else {
         toast.success('Login realizado com sucesso!');
-        // Navigate is handled by the auth state change in AuthContext
       }
     } catch (error) {
       console.error('Unexpected error:', error);
@@ -109,8 +108,8 @@ const Index = () => {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-petshop-blue dark:bg-gray-900">
-        <div className="h-16 w-16 border-4 border-t-transparent border-petshop-gold rounded-full animate-spin"></div>
+      <div className="min-h-screen flex items-center justify-center bg-blue-600 dark:bg-gray-900">
+        <div className="h-16 w-16 border-4 border-t-transparent border-yellow-400 rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -123,22 +122,22 @@ const Index = () => {
       
       <div className="absolute inset-0 z-0">
         <img 
-          src="/lovable-uploads/7a96682a-47a3-4ed0-8036-8a31ad28cb4b.png" 
-          alt="Pet background" 
+          src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=1920&h=1080&fit=crop" 
+          alt="Financial background" 
           className="w-full h-full object-cover transition-opacity duration-1000 opacity-80"
         />
-        <div className="absolute inset-0 backdrop-blur-md bg-petshop-blue/30 dark:bg-gray-900/50"></div>
+        <div className="absolute inset-0 backdrop-blur-md bg-blue-600/30 dark:bg-gray-900/50"></div>
       </div>
       
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-10">
-        <div className="absolute top-[10%] left-[5%] w-28 h-28 rounded-full bg-petshop-gold dark:bg-amber-500 opacity-20 animate-float"></div>
-        <div className="absolute bottom-[20%] right-[10%] w-40 h-40 rounded-full bg-petshop-gold dark:bg-amber-500 opacity-10 animate-float" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-[40%] right-[20%] w-24 h-24 rounded-full bg-petshop-gold dark:bg-amber-500 opacity-15 animate-float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-[10%] left-[5%] w-28 h-28 rounded-full bg-yellow-400 dark:bg-amber-500 opacity-20 animate-float"></div>
+        <div className="absolute bottom-[20%] right-[10%] w-40 h-40 rounded-full bg-yellow-400 dark:bg-amber-500 opacity-10 animate-float" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-[40%] right-[20%] w-24 h-24 rounded-full bg-yellow-400 dark:bg-amber-500 opacity-15 animate-float" style={{ animationDelay: '2s' }}></div>
         
-        <PawPrint className="absolute top-[15%] right-[25%] w-16 h-16 text-white opacity-10 animate-bounce" style={{ animationDelay: '1.5s' }} />
-        <PawPrint className="absolute bottom-[30%] left-[15%] w-20 h-20 text-white opacity-10 animate-float" style={{ animationDelay: '2.5s' }} />
-        <PawPrint className="absolute top-[60%] right-[10%] w-12 h-12 text-petshop-gold dark:text-amber-500 opacity-15 animate-pulse" style={{ animationDelay: '0.5s' }} />
-        <Heart className="absolute top-[25%] left-[30%] w-10 h-10 text-petshop-gold dark:text-amber-500 opacity-15 animate-pulse" style={{ animationDelay: '1.2s' }} />
+        <TrendingUp className="absolute top-[15%] right-[25%] w-16 h-16 text-white opacity-10 animate-bounce" style={{ animationDelay: '1.5s' }} />
+        <BarChart3 className="absolute bottom-[30%] left-[15%] w-20 h-20 text-white opacity-10 animate-float" style={{ animationDelay: '2.5s' }} />
+        <TrendingUp className="absolute top-[60%] right-[10%] w-12 h-12 text-yellow-400 dark:text-amber-500 opacity-15 animate-pulse" style={{ animationDelay: '0.5s' }} />
+        <BarChart3 className="absolute top-[25%] left-[30%] w-10 h-10 text-yellow-400 dark:text-amber-500 opacity-15 animate-pulse" style={{ animationDelay: '1.2s' }} />
         <Sparkles className="absolute bottom-[15%] right-[25%] w-14 h-14 text-white opacity-10 animate-pulse" style={{ animationDelay: '1.8s' }} />
       </div>
       
@@ -160,32 +159,32 @@ const Index = () => {
 
             <div className="space-y-4 animate-slide-up" style={{ animationDelay: '0.4s' }}>
               <div className="relative group">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60 h-5 w-5 group-hover:text-petshop-gold transition-colors duration-300" />
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60 h-5 w-5 group-hover:text-yellow-400 transition-colors duration-300" />
                 <Input
                   type="email"
                   name="email"
                   placeholder="Email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`pl-10 h-12 bg-white/10 dark:bg-gray-700/50 border-white/20 text-white rounded-md transition-all duration-300 hover:border-petshop-gold/50 ${errors.email ? 'border-red-400' : 'focus:border-petshop-gold'}`}
+                  className={`pl-10 h-12 bg-white/10 dark:bg-gray-700/50 border-white/20 text-white rounded-md transition-all duration-300 hover:border-yellow-400/50 ${errors.email ? 'border-red-400' : 'focus:border-yellow-400'}`}
                 />
                 {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email}</p>}
               </div>
 
               <div className="relative group">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60 h-5 w-5 group-hover:text-petshop-gold transition-colors duration-300" />
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60 h-5 w-5 group-hover:text-yellow-400 transition-colors duration-300" />
                 <Input
                   type={showPassword ? "text" : "password"}
                   name="password"
                   placeholder="Senha"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`pl-10 h-12 bg-white/10 dark:bg-gray-700/50 border-white/20 text-white rounded-md transition-all duration-300 hover:border-petshop-gold/50 ${errors.password ? 'border-red-400' : 'focus:border-petshop-gold'}`}
+                  className={`pl-10 h-12 bg-white/10 dark:bg-gray-700/50 border-white/20 text-white rounded-md transition-all duration-300 hover:border-yellow-400/50 ${errors.password ? 'border-red-400' : 'focus:border-yellow-400'}`}
                 />
                 <button 
                   type="button"
                   onClick={togglePasswordVisibility}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/60 h-5 w-5 hover:text-petshop-gold transition-colors duration-300"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/60 h-5 w-5 hover:text-yellow-400 transition-colors duration-300"
                 >
                   {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
@@ -198,13 +197,13 @@ const Index = () => {
                 <input
                   type="checkbox"
                   id="remember"
-                  className="w-4 h-4 bg-white/10 dark:bg-gray-700/50 border-white/20 rounded focus:ring-petshop-gold text-petshop-gold"
+                  className="w-4 h-4 bg-white/10 dark:bg-gray-700/50 border-white/20 rounded focus:ring-yellow-400 text-yellow-400"
                 />
                 <label htmlFor="remember" className="ml-2 text-sm text-white/80 hover:text-white transition-colors duration-300">
                   Lembrar-me
                 </label>
               </div>
-              <a href="#" className="text-sm text-petshop-gold hover:text-white transition-colors duration-300">
+              <a href="#" className="text-sm text-yellow-400 hover:text-white transition-colors duration-300">
                 Esqueceu a senha?
               </a>
             </div>
@@ -212,13 +211,13 @@ const Index = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full button-hover-effect bg-petshop-gold hover:bg-amber-500 text-petshop-blue dark:text-gray-900 font-bold py-3 px-4 rounded-md flex items-center justify-center transition-all duration-300 animate-slide-up"
+              className="w-full button-hover-effect bg-yellow-400 hover:bg-amber-500 text-gray-900 font-bold py-3 px-4 rounded-md flex items-center justify-center transition-all duration-300 animate-slide-up"
               style={{ animationDelay: '0.6s' }}
             >
               {isLoading ? (
-                <div className="h-5 w-5 border-2 border-petshop-blue dark:border-gray-900 border-t-transparent rounded-full animate-spin mr-2"></div>
+                <div className="h-5 w-5 border-2 border-gray-900 border-t-transparent rounded-full animate-spin mr-2"></div>
               ) : (
-                <PawPrint className="mr-2 h-5 w-5" />
+                <TrendingUp className="mr-2 h-5 w-5" />
               )}
               {isLoading ? "Entrando..." : "Login"}
             </button>

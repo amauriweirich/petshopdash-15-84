@@ -26,9 +26,9 @@ const Logo: React.FC<LogoProps> = ({
       className
     )}>
       <img 
-        src="/lovable-uploads/8697baef-6826-467f-8608-0054aefa260c.png" 
+        src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=500&h=500&fit=crop&crop=center" 
         alt="Unicapital Logo" 
-        className="w-full h-full object-contain" 
+        className="w-full h-full object-contain rounded-lg shadow-lg" 
       />
     </div>
   );

@@ -6,10 +6,10 @@ import { supabase } from '@/integrations/supabase/client';
 export function useClientStats() {
   const [stats, setStats] = useState({
     totalClients: 0,
-    totalPets: 0,
+    totalServices: 0,
     newClientsThisMonth: 0,
     monthlyGrowth: [],
-    petBreeds: [],
+    serviceTypes: [],
     recentClients: []
   });
   const [loading, setLoading] = useState(true);
@@ -24,16 +24,14 @@ export function useClientStats() {
         .from('dados_cliente')
         .select('*', { count: 'exact' });
 
-      // Fetch total pets (assuming each client has at least one pet)
-      const { count: totalPets } = await (supabase as any)
+      // Fetch total services (assuming each client represents a service interaction)
+      const { count: totalServices } = await (supabase as any)
         .from('dados_cliente')
-        .select('*', { count: 'exact' })
-        .not('nome_pet', 'is', null);
+        .select('*', { count: 'exact' });
 
-      // Fetch new clients this month (from 1st of current month to today)
+      // Fetch new clients this month
       const today = new Date();
       const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-      const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
       
       const { count: newClientsThisMonth } = await (supabase as any)
         .from('dados_cliente')
@@ -62,35 +60,24 @@ export function useClientStats() {
         });
       }
 
-      // Fetch pet breeds data
-      const { data: petsData } = await (supabase as any)
-        .from('dados_cliente')
-        .select('raca_pet')
-        .not('raca_pet', 'is', null);
-
-      const breedCounts: Record<string, number> = {};
-      petsData?.forEach((pet: any) => {
-        if (pet.raca_pet) {
-          breedCounts[pet.raca_pet] = (breedCounts[pet.raca_pet] || 0) + 1;
-        }
-      });
-
+      // Mock service types data (you can customize this based on your needs)
       const colors = [
         '#8B5CF6', '#EC4899', '#10B981', '#3B82F6', 
         '#F59E0B', '#EF4444', '#6366F1', '#14B8A6',
         '#F97316', '#8B5CF6', '#06B6D4', '#D946EF'
       ];
 
-      const petBreeds = Object.entries(breedCounts).map(([name, value], index) => ({
-        name,
-        value,
-        color: colors[index % colors.length]
-      }));
+      const serviceTypes = [
+        { name: 'Consultoria Financeira', value: Math.floor(Math.random() * 50) + 20, color: colors[0] },
+        { name: 'Planejamento', value: Math.floor(Math.random() * 40) + 15, color: colors[1] },
+        { name: 'Investimentos', value: Math.floor(Math.random() * 35) + 10, color: colors[2] },
+        { name: 'Seguros', value: Math.floor(Math.random() * 30) + 8, color: colors[3] },
+      ];
 
       // Fetch recent clients
       const { data: recentClientsData } = await (supabase as any)
         .from('dados_cliente')
-        .select('id, nome, telefone, nome_pet, created_at')
+        .select('id, nome, telefone, email, created_at')
         .order('created_at', { ascending: false })
         .limit(5);
 
@@ -98,17 +85,16 @@ export function useClientStats() {
         id: client.id,
         name: client.nome,
         phone: client.telefone,
-        pets: client.nome_pet ? 1 : 0,
+        services: 1,
         lastVisit: new Date(client.created_at).toLocaleDateString('pt-BR')
       })) || [];
 
-      // Update stats
       setStats({
         totalClients: totalClients || 0,
-        totalPets: totalPets || 0,
+        totalServices: totalServices || 0,
         newClientsThisMonth: newClientsThisMonth || 0,
         monthlyGrowth: monthlyGrowthData,
-        petBreeds,
+        serviceTypes,
         recentClients
       });
 

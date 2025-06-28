@@ -6,6 +6,8 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Info, ExternalLink } from 'lucide-react';
 
 // Default webhook base URL
 const DEFAULT_WEBHOOK_BASE = "https://webhook.n8nlabz.com.br/webhook";
@@ -86,11 +88,38 @@ const ConfigurationManager = () => {
         </Button>
       </div>
 
+      <Alert className="mb-6">
+        <Info className="h-4 w-4" />
+        <AlertDescription>
+          <strong>Guia de Configuração:</strong>
+          <br />
+          1. <strong>URLs de Webhook:</strong> Configure os endpoints do seu sistema N8N
+          <br />
+          2. <strong>Google Agenda:</strong> Os endpoints de agenda devem apontar para fluxos N8N que integram com Google Calendar API
+          <br />
+          3. <strong>Evolution API:</strong> Configure a instância do Evolution para WhatsApp
+          <br />
+          4. <strong>Salve sempre</strong> após fazer alterações para que sejam aplicadas
+        </AlertDescription>
+      </Alert>
+
       <div className="grid gap-6">
         {Object.entries(endpointGroups).map(([groupTitle, fields]) => (
           <Card key={groupTitle} className="w-full">
             <CardContent className="pt-6">
-              <h3 className="text-lg font-semibold mb-4">{groupTitle}</h3>
+              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                {groupTitle}
+                {groupTitle.includes('Agenda') && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => window.open('https://console.cloud.google.com/apis/credentials', '_blank')}
+                  >
+                    <ExternalLink className="h-3 w-3 mr-1" />
+                    Google Cloud Console
+                  </Button>
+                )}
+              </h3>
               <div className="space-y-4">
                 {fields.map((field) => (
                   <div key={field.id} className="space-y-2">
@@ -101,6 +130,7 @@ const ConfigurationManager = () => {
                       onChange={field.readOnly ? undefined : (e) => handleEndpointChange(field.key, e.target.value)}
                       readOnly={field.readOnly}
                       className="w-full font-mono text-sm"
+                      placeholder={field.readOnly ? 'Configurado automaticamente' : 'Digite a URL do endpoint'}
                     />
                   </div>
                 ))}
@@ -108,6 +138,44 @@ const ConfigurationManager = () => {
             </CardContent>
           </Card>
         ))}
+
+        <Card className="w-full bg-blue-50 dark:bg-blue-900/20">
+          <CardContent className="pt-6">
+            <h3 className="text-lg font-semibold mb-4">📚 Documentação de Configuração</h3>
+            <div className="space-y-4 text-sm">
+              <div>
+                <h4 className="font-medium">1. Configuração do Google Agenda:</h4>
+                <ul className="list-disc ml-6 space-y-1">
+                  <li>Acesse o Google Cloud Console e crie um projeto</li>
+                  <li>Ative a Google Calendar API</li>
+                  <li>Crie credenciais OAuth 2.0</li>
+                  <li>Configure os URLs de redirect no N8N</li>
+                  <li>Use as credenciais nos fluxos N8N da agenda</li>
+                </ul>
+              </div>
+              
+              <div>
+                <h4 className="font-medium">2. N8N e Webhooks:</h4>
+                <ul className="list-disc ml-6 space-y-1">
+                  <li>Cada endpoint deve corresponder a um fluxo no N8N</li>
+                  <li>Configure webhooks que recebem dados via POST</li>
+                  <li>Implemente a lógica de negócio nos fluxos</li>
+                  <li>Retorne respostas apropriadas para o frontend</li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="font-medium">3. Evolution API (WhatsApp):</h4>
+                <ul className="list-disc ml-6 space-y-1">
+                  <li>Configure uma instância do Evolution API</li>
+                  <li>Obtenha o QR Code para conectar o WhatsApp</li>
+                  <li>Configure os webhooks para receber mensagens</li>
+                  <li>Integre com os fluxos N8N para automação</li>
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
